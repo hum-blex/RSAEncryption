@@ -18,7 +18,22 @@ public class TestCryptoController
         Assert.False(string.IsNullOrWhiteSpace(result.Value?.ToString()));
     }
 
+    [Fact]
+    public void Encrypt_ShouldReturnEncryptedMessage()
+    {
+        // Arrange
+        string publicKey = CryptoService.GetPublicKey();
+        string message = "Hello, Test!";
 
+        // Act
+        var result = _controller.Encrypt(message, publicKey) as OkObjectResult;
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(200, result.StatusCode);
+        Assert.False(string.IsNullOrWhiteSpace(result.Value?.ToString()));
+        Assert.NotEqual(message, result.Value?.ToString());
+    }
 
     [Fact]
     public void EncryptDecrypt_ShouldReturnOriginalMessage()

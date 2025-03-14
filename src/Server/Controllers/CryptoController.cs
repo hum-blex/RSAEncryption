@@ -19,6 +19,19 @@ public class CryptoController : ControllerBase
         }
     }
 
+    [HttpPost("encrypt")]
+    public IActionResult Encrypt(string message, string publicKey)
+    {
+        try
+        {
+            string encryptedMessage = CryptoService.Encrypt(message, publicKey);
+            return Ok(encryptedMessage);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest($"Encryption failed:{ex.Message}");
+        }
+    }
     [HttpPost("decrypt")]
     public IActionResult DecryptMessage([FromBody] string encryptedMessage)
     {
